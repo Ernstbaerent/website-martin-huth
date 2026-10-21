@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kalender pflegen – Dr. Martin Huth</title>
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Wie die öffentliche Seite, aber zusätzlich (und nur) Verbindungen zu api.github.com erlaubt -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'self'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <link rel="icon" href="../assets/favicon/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/favicon/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/favicon/favicon-180.png">
+  <link rel="stylesheet" href="../css/stil.css">
+</head>
+<body class="verwaltung-seite">
+  <header class="kopf">
+    <div class="innen kopf__zeile">
+      <span class="marke">
+        <img src="../assets/logo/logo.svg" alt="" width="68" height="48">
+        <span class="marke__text">
+          <span class="marke__name">Kalender pflegen</span>
+          <span class="marke__zusatz">Dr. Martin Huth</span>
+        </span>
+      </span>
+      <button type="button" class="knopf knopf--leise knopf--klein" id="abmelden" hidden>Abmelden</button>
+    </div>
+  </header>
+
+  <main id="verwaltung" class="innen verwaltung">
+    <section class="verwaltung__einleitung" aria-labelledby="titel">
+      <h1 id="titel">Verfügbarkeit pflegen</h1>
+      <p>Hier tragen Sie ein, an welchen Tagen Sie <strong>nicht</strong> für Termine zur Verfügung stehen. Auf der Website erscheinen diese Tage nur als „nicht verfügbar“ – ohne Grund. Wochenenden und Feiertage sind automatisch gesperrt.</p>
+      <p>Terminanfragen erhalten Sie per E-Mail an <strong>martin.huth@it-profis.biz</strong>.</p>
+      <p class="meldung meldung--warnung" id="testbetrieb" hidden></p>
+    </section>
+
+    <!-- ============ Anmeldung ============ -->
+    <section id="anmeldung" class="verwaltung__karte" aria-labelledby="anmeldung-titel">
+      <h2 id="anmeldung-titel">Anmelden</h2>
+      <p>Den Zugangsschlüssel bekommen Sie von Clemens. Er wird nur auf diesem Gerät gespeichert, bis Sie auf „Abmelden“ tippen.</p>
+      <form id="anmelde-formular" class="formular" novalidate>
+        <div class="feld">
+          <label for="schluessel">Zugangsschlüssel</label>
+          <input id="schluessel" name="schluessel" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" required aria-describedby="anmelde-meldung">
+        </div>
+        <div class="feld">
+          <label for="ablauf">Gültig bis <span class="feld__optional">(optional, nennt Ihnen Clemens)</span></label>
+          <p class="feld__hinweis" id="ablauf-hinweis">Dann erinnert Sie diese Seite rechtzeitig, bevor der Schlüssel abläuft.</p>
+          <input id="ablauf" name="ablauf" type="date" aria-describedby="ablauf-hinweis">
+        </div>
+        <button type="submit" class="knopf knopf--gross" id="anmelde-knopf">Anmelden</button>
+        <p id="anmelde-meldung" role="status" hidden></p>
+      </form>
+    </section>
+
+    <!-- ============ Nach der Anmeldung ============ -->
+    <div id="bereich" class="verwaltung__bereich" hidden>
+      <p id="schluessel-info" role="status" hidden></p>
+
+      <section class="verwaltung__karte" aria-labelledby="so-titel">
+        <h2 id="so-titel">So geht’s</h2>
+        <ol class="schritte">
+          <li>Tippen Sie auf den <strong>ersten Tag</strong>, an dem Sie nicht können.</li>
+          <li>Tippen Sie auf den <strong>letzten Tag</strong>. Für einen einzelnen Tag tippen Sie denselben Tag noch einmal an.</li>
+          <li>Tippen Sie auf <strong>„Speichern“</strong>. Nach wenigen Minuten ist der Kalender auf der Website aktuell.</li>
+        </ol>
+        <p class="feld__hinweis">Zum Freigeben tippen Sie auf einen eingetragenen Tag oder löschen den Eintrag in der Liste.</p>
+      </section>
+
+      <section class="verwaltung__karte" aria-labelledby="kalender-titel">
+        <h2 id="kalender-titel" class="visually-hidden">Kalender</h2>
+        <div id="verwaltung-kalender"></div>
+        <div id="auswahl" class="auswahl" aria-live="polite">
+          <p id="auswahl-text"></p>
+          <div id="auswahl-knoepfe" class="auswahl__knoepfe"></div>
+        </div>
+      </section>
+
+      <section class="verwaltung__karte" aria-labelledby="liste-titel">
+        <h2 id="liste-titel">Eingetragen als „nicht verfügbar“</h2>
+        <p id="liste-leer" class="feld__hinweis">Noch keine Einträge – alle Werktage sind verfügbar.</p>
+        <ul id="liste" class="eintraege"></ul>
+      </section>
+
+      <div class="speicherleiste">
+        <p id="aenderungen" class="speicherleiste__hinweis" hidden>Nicht gespeicherte Änderungen</p>
+        <button type="button" class="knopf knopf--gross speicherleiste__knopf" id="speichern">Speichern</button>
+        <p id="speicher-status" role="status" hidden></p>
+        <div id="konflikt" class="auswahl__knoepfe" hidden>
+          <button type="button" class="knopf knopf--gross" id="konflikt-ueberschreiben">Meine Änderungen trotzdem speichern</button>
+          <button type="button" class="knopf knopf--leise knopf--gross" id="konflikt-neu-laden">Neu laden (meine Änderungen verwerfen)</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="../js/verwaltung.js"></script>
+</body>
+</html>
