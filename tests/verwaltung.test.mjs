@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import {
   EINSTELLUNGEN, normalisiere, fuegeHinzu, gibTagFrei, entferneEintragMit, ohneVergangene, eintragText,
   alsJson, pruefeSchluessel, tageBisAblauf, zuBase64, ausBase64, fehlerText, ApiFehler,
-} from '../js/verwaltung.js';
-import { leseVerfuegbarkeit } from '../js/kalender.js';
+} from '../docs/js/verwaltung.js';
+import { leseVerfuegbarkeit } from '../docs/js/kalender.js';
 
 let anzahl = 0;
 function test(name, fn) {

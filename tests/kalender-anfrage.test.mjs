@@ -1,7 +1,7 @@
 // Tests für js/kalender.js und js/anfrage.js (ohne Browser) – Aufruf: node tests/kalender-anfrage.test.mjs
 import assert from 'node:assert/strict';
-import { leseVerfuegbarkeit, tagesStatus, plusMonate, datumKurz, datumLang } from '../js/kalender.js';
-import { baueBetreff, baueText, baueMailto, pruefe, EMPFAENGER } from '../js/anfrage.js';
+import { leseVerfuegbarkeit, tagesStatus, plusMonate, datumKurz, datumLang } from '../docs/js/kalender.js';
+import { baueBetreff, baueText, baueMailto, pruefe, EMPFAENGER } from '../docs/js/anfrage.js';
 
 let anzahl = 0;
 function test(name, fn) {

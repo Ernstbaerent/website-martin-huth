@@ -1,6 +1,6 @@
 // Tests für js/feiertage.js – Aufruf: node tests/feiertage.test.mjs
 import assert from 'node:assert/strict';
-import { ostersonntag, feiertage, feiertagAm, istFeiertag, datumsSchluessel } from '../js/feiertage.js';
+import { ostersonntag, feiertage, feiertagAm, istFeiertag, datumsSchluessel } from '../docs/js/feiertage.js';
 
 let anzahl = 0;
 function test(name, fn) {

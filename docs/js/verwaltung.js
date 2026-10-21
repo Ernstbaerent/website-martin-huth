@@ -10,16 +10,17 @@ import {
 } from './kalender.js';
 
 /* ================================================================== EINSTELLUNGEN
- * Zentrale Stelle für alles, was sich beim Go-live ändert.
+ * Zentrale Stelle für alles, was sich am Speicherort ändern kann.
  *
- * ZIEL-BRANCH: Zum Testen wird in den Arbeitsbranch gespeichert.
- * >>> Beim Go-live hier 'main' eintragen! <<<
+ * branch: Hierhin wird gespeichert. GitHub Pages veröffentlicht aus „main“ (Ordner /docs).
+ *         Zum Testen auf einem anderen Branch hier dessen Namen eintragen.
+ * datei:  Pfad im Repository (die Website liegt im Ordner docs/).
  */
 export const EINSTELLUNGEN = Object.freeze({
   besitzer: 'Ernstbaerent',
   repo: 'website-martin-huth',
-  branch: 'claude/great-wozniak-jyhyo8',
-  datei: 'data/verfuegbarkeit.json',
+  branch: 'main',
+  datei: 'docs/data/verfuegbarkeit.json',
   commitNachricht: 'Verfügbarkeit aktualisiert',
   warnenTageVorAblauf: 30,
 });
