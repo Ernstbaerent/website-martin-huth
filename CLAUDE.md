@@ -49,7 +49,10 @@ Diese Datei hält die festen Regeln des Projekts fest. Sie gilt für jede Sitzun
 ## Technik
 - Reines HTML, CSS, JavaScript. Kein Framework, kein Build-Schritt, keine Paketabhängigkeiten zur Laufzeit.
 - JavaScript als ES-Module (`<script type="module">`), damit dieselben Dateien im Browser und in Node-Tests laufen.
-- Hosting: GitHub Pages aus `main`, Root. (Pages, CNAME, Domain/DNS bei Strato, Visitenkarten: bewusst noch NICHT.)
+- Hosting: GitHub Pages aus `main`, Ordner `/docs`. Nur `docs/` ist öffentlich erreichbar; `CLAUDE.md`, `README.md`,
+  `tests/` und `_referenz/` liegen bewusst außerhalb. (CNAME, Domain/DNS bei Strato, Visitenkarten: noch NICHT.)
+- Alle Website-Dateien liegen in `docs/` (Pfade unten sind relativ dazu, z. B. `js/kalender.js` = `docs/js/kalender.js`).
+  Innerhalb der Website nur relative Pfade verwenden (die Vorschau läuft unter `/website-martin-huth/`).
 - Getrennte Dateien: `js/kalender.js`, `js/feiertage.js`, `js/anfrage.js`, `js/verwaltung.js`.
 - `data/verfuegbarkeit.json` enthält nur gesperrte Tage/Zeiträume – NIE einen Grund (das Repo ist öffentlich).
 - Verwaltungsseite in nicht erratbarem Ordner, nirgends verlinkt, `<meta name="robots" content="noindex, nofollow">`,
@@ -96,8 +99,10 @@ Diese Datei hält die festen Regeln des Projekts fest. Sie gilt für jede Sitzun
   Konflikte abfangen). Erfolg: „Gespeichert – in wenigen Minuten online." Fehler verständlich auf Deutsch
   (z. B. „Schlüssel abgelaufen – bitte Clemens melden").
 - Hinweis: „Terminanfragen erhalten Sie per E-Mail an martin.huth@it-profis.biz."
-- Ziel-Branch fürs Speichern steht zentral in `js/verwaltung.js` → `EINSTELLUNGEN.branch`
-  (zum Testen der Arbeitsbranch; solange nicht `main`, zeigt die Seite einen „Testbetrieb“-Hinweis).
+- Ziel-Branch und Dateipfad fürs Speichern stehen zentral in `docs/js/verwaltung.js` → `EINSTELLUNGEN`
+  (`branch: 'main'`, `datei: 'docs/data/verfuegbarkeit.json'`). Ist der Branch nicht `main`, zeigt die Seite
+  einen „Testbetrieb“-Hinweis.
+- Die Verwaltung schreibt direkt auf `main`. Vor neuer Arbeit auf einem Branch deshalb erst `main` hineinholen.
 - Das Ablaufdatum des Tokens liefert GitHub nur in einem Header, den Browser nicht lesen dürfen (CORS).
   Deshalb wird es bei der Anmeldung optional eingetragen; Warnung 30 Tage vorher.
 - Zeiträume: erster Tipp = erster Tag, zweiter Tipp = letzter Tag; zweimal derselbe Tag = Einzeltag.
@@ -118,8 +123,15 @@ Diese Datei hält die festen Regeln des Projekts fest. Sie gilt für jede Sitzun
 - Jede Seite hat eine Content-Security-Policy (`<meta http-equiv>`), die nur eigene Dateien erlaubt.
   Ausnahme nur auf der Verwaltungsseite: `connect-src 'self' https://api.github.com`.
 
+## Vorschau-Schutz (aktiv, solange die Seite nur Vorschau ist)
+- `docs/index.html`, `docs/impressum.html`, `docs/datenschutz.html`: `<meta name="robots" content="noindex, nofollow">`
+  mit Kommentar „VORSCHAU-SCHUTZ“.
+- `docs/robots.txt`: `Disallow: /`. (Wirkt erst unter der eigenen Domain; unter github.io zählt nur das Meta-Tag.)
+
 ## Go-live-Checkliste (Clemens daran erinnern!)
-1. `js/verwaltung.js`: `EINSTELLUNGEN.branch` von `'claude/great-wozniak-jyhyo8'` auf `'main'` umstellen.
-2. Arbeitsbranch nach `main` übernehmen – nur mit Clemens' OK.
-3. GitHub Pages aktivieren (Branch main, Root); später Domain/CNAME/DNS bei Strato.
-4. Token für die Verwaltung auf Vaters Gerät eintragen, Ablaufdatum notieren; einmal testweise speichern.
+1. Vorschau-Schutz entfernen: das „VORSCHAU-SCHUTZ“-Meta-Tag in index, impressum und datenschutz löschen und
+   `docs/robots.txt` auf `Allow: /` stellen. Auf der Verwaltungsseite bleibt `noindex, nofollow` IMMER stehen.
+2. Prüfen, dass `EINSTELLUNGEN.branch` in `docs/js/verwaltung.js` auf `'main'` steht (seit der Vorschau der Fall).
+3. Eigene Domain: CNAME-Datei in `docs/`, DNS bei Strato, in den Pages-Einstellungen eintragen, HTTPS erzwingen.
+4. Platzhalter füllen (Porträt, Telefon, LinkedIn, Xing, Schwerpunkte) und Impressum/Datenschutz mit geprüftem Rechtstext.
+5. Token auf Vaters Gerät eintragen, Ablaufdatum notieren; einmal testweise speichern.
