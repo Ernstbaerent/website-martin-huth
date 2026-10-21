@@ -79,7 +79,7 @@ Diese Datei hält die festen Regeln des Projekts fest. Sie gilt für jede Sitzun
   Heilige Drei Könige, Frauentag (8.3.), Fronleichnam, Mariä Himmelfahrt, Weltkindertag (20.9.), Reformationstag,
   Allerheiligen, Buß- und Bettag (Mittwoch vor dem 23.11.).
 - Pflicht-Testwerte: Ostersonntag 2026 = 05.04.2026, 2027 = 28.03.2027, Fronleichnam 2026 = 04.06.2026,
-  Buß- und Bettag 2026 = 18.11.2026. Tests: `node tests/feiertage.test.mjs` und `node tests/kalender-anfrage.test.mjs`.
+  Buß- und Bettag 2026 = 18.11.2026. Tests: `node tests/feiertage.test.mjs`, `node tests/kalender-anfrage.test.mjs`, `node tests/verwaltung.test.mjs`.
 
 ## Terminanfrage
 - Klick auf verfügbaren Tag → Formular: Name, Organisation, E-Mail, Telefon (optional), Anliegen.
@@ -96,6 +96,11 @@ Diese Datei hält die festen Regeln des Projekts fest. Sie gilt für jede Sitzun
   Konflikte abfangen). Erfolg: „Gespeichert – in wenigen Minuten online." Fehler verständlich auf Deutsch
   (z. B. „Schlüssel abgelaufen – bitte Clemens melden").
 - Hinweis: „Terminanfragen erhalten Sie per E-Mail an martin.huth@it-profis.biz."
+- Ziel-Branch fürs Speichern steht zentral in `js/verwaltung.js` → `EINSTELLUNGEN.branch`
+  (zum Testen der Arbeitsbranch; solange nicht `main`, zeigt die Seite einen „Testbetrieb“-Hinweis).
+- Das Ablaufdatum des Tokens liefert GitHub nur in einem Header, den Browser nicht lesen dürfen (CORS).
+  Deshalb wird es bei der Anmeldung optional eingetragen; Warnung 30 Tage vorher.
+- Zeiträume: erster Tipp = erster Tag, zweiter Tipp = letzter Tag; zweimal derselbe Tag = Einzeltag.
 
 ## Getroffene Entscheidungen
 - Logo: Richtung A „nah am Original“, Linien und Buchstaben in Dunkelblau #17375E, Flächen Hellblau #95C6E6.
@@ -112,3 +117,9 @@ Diese Datei hält die festen Regeln des Projekts fest. Sie gilt für jede Sitzun
 - Format `data/verfuegbarkeit.json`: `{ "nichtVerfuegbar": [ { "von": "JJJJ-MM-TT", "bis": "JJJJ-MM-TT" } ] }`.
 - Jede Seite hat eine Content-Security-Policy (`<meta http-equiv>`), die nur eigene Dateien erlaubt.
   Ausnahme nur auf der Verwaltungsseite: `connect-src 'self' https://api.github.com`.
+
+## Go-live-Checkliste (Clemens daran erinnern!)
+1. `js/verwaltung.js`: `EINSTELLUNGEN.branch` von `'claude/great-wozniak-jyhyo8'` auf `'main'` umstellen.
+2. Arbeitsbranch nach `main` übernehmen – nur mit Clemens' OK.
+3. GitHub Pages aktivieren (Branch main, Root); später Domain/CNAME/DNS bei Strato.
+4. Token für die Verwaltung auf Vaters Gerät eintragen, Ablaufdatum notieren; einmal testweise speichern.
