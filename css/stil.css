@@ -1,0 +1,486 @@
+/* =====================================================================
+   Dr. Martin Huth – die IT-Profis
+   Gemeinsames Stylesheet für alle Seiten. Mobile first:
+   Grundregeln gelten fürs Handy, @media (min-width: …) erweitert für größere Bildschirme.
+   ===================================================================== */
+
+/* ---------- Schrift (selbst gehostet, Lizenz: assets/fonts/OFL.txt) ---------- */
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/source-sans-3-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/source-sans-3-600.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../assets/fonts/source-sans-3-700.woff2") format("woff2");
+}
+
+/* ---------- Gestaltungs-Variablen ---------- */
+:root {
+  /* Farben */
+  --grund: #F5F7F9;          /* grau-weißer Seitengrund */
+  --flaeche: #FFFFFF;        /* Karten, Kopfzeile */
+  --text: #1B2533;           /* Fließtext */
+  --text-leise: #4A5665;     /* Nebentexte (AA-Kontrast auf Grund und Fläche) */
+  --navy: #17375E;           /* Logo-Dunkelblau: Überschriften, Buttons */
+  --navy-tief: #0F2742;      /* Button beim Darüberfahren */
+  --akzent: #1F5F94;         /* Links, Fokusrahmen */
+  --logo-blau: #95C6E6;      /* Hellblau aus dem Logo, nur für Flächen und Linien */
+  --akzent-zart: #E4F0F9;    /* sehr helle Akzentfläche */
+  --linie: #D9E1E8;          /* Trennlinien, Rahmen */
+  --platine: #C3D3E0;        /* Platinen-Leiterbahnen */
+  --auf-dunkel: #FFFFFF;
+  --auf-dunkel-leise: #C9D6E5;
+
+  /* Schrift */
+  --schrift: "Source Sans 3", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --gr-fliess: 1.125rem;                          /* 18 px */
+  --gr-klein: 1rem;                               /* 16 px, nur für Nebeninfos */
+  --gr-h1: clamp(2.25rem, 1.6rem + 3vw, 3.5rem);
+  --gr-h2: clamp(1.75rem, 1.4rem + 1.6vw, 2.375rem);
+  --gr-h3: 1.375rem;
+
+  /* Abstände und Maße */
+  --breite: 72rem;                                /* maximale Inhaltsbreite */
+  --rand: max(16px, env(safe-area-inset-left, 0px));
+  --rand-r: max(16px, env(safe-area-inset-right, 0px));
+  --abschnitt: clamp(3.5rem, 2rem + 7vw, 7rem);   /* Abstand zwischen Bereichen */
+  --radius: 6px;
+  --kopf-hoehe: 4.5rem;
+
+  color-scheme: light;
+}
+
+/* ---------- Grundlagen ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: 1rem;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  margin: 0;
+  background: var(--grund);
+  color: var(--text);
+  font-family: var(--schrift);
+  font-size: var(--gr-fliess);
+  line-height: 1.6;
+}
+
+img, svg { max-width: 100%; }
+img { height: auto; }
+
+h1, h2, h3 {
+  color: var(--navy);
+  line-height: 1.15;
+  margin: 0;
+  text-wrap: balance;
+}
+h1 { font-size: var(--gr-h1); font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: var(--gr-h2); font-weight: 600; letter-spacing: -0.005em; }
+h3 { font-size: var(--gr-h3); font-weight: 600; }
+
+p { margin: 0; max-width: 65ch; }
+
+a { color: var(--akzent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+
+/* Sichtbarer Tastatur-Fokus überall */
+:focus-visible {
+  outline: 3px solid var(--akzent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* „Zum Inhalt springen“ – erscheint nur bei Tastaturbedienung */
+.sprunglink {
+  position: absolute;
+  left: var(--rand);
+  top: -100px;
+  z-index: 100;
+  background: var(--navy);
+  color: var(--auf-dunkel);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+}
+.sprunglink:focus { top: 0.75rem; }
+
+/* Innerer Rahmen mit Seitenrand */
+.innen {
+  max-width: var(--breite);
+  margin-inline: auto;
+  padding-left: var(--rand);
+  padding-right: var(--rand-r);
+}
+
+/* Platzhalter für fehlende Inhalte: gut erkennbar, damit nichts vergessen wird */
+.platzhalter {
+  background: #FFF4CC;
+  color: #5A4500;
+  padding: 0 0.25em;
+  border-radius: 3px;
+}
+
+/* ---------- Claim (wiederkehrendes Element, wie auf der alten Folie) ---------- */
+.claim {
+  color: var(--navy);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+.claim b {
+  font-weight: 600;
+  font-size: 1.22em;
+  line-height: 1;
+}
+
+/* ---------- Buttons ---------- */
+.knopf {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.625rem 1.375rem;
+  border: 2px solid var(--navy);
+  border-radius: var(--radius);
+  background: var(--navy);
+  color: var(--auf-dunkel);
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.knopf:hover { background: var(--navy-tief); border-color: var(--navy-tief); text-decoration: none; }
+.knopf--leise { background: transparent; color: var(--navy); }
+.knopf--leise:hover { background: var(--akzent-zart); border-color: var(--navy); }
+.knopf--klein { min-height: 44px; padding: 0.5rem 1rem; font-size: var(--gr-klein); }
+
+/* ---------- Kopfzeile ---------- */
+.kopf {
+  background: var(--flaeche);
+  border-bottom: 1px solid var(--linie);
+}
+.kopf__zeile {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.625rem;
+}
+.marke {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--navy);
+  text-decoration: none;
+  min-width: 0;
+}
+.marke img { width: auto; height: 48px; flex: none; }
+.marke__text { display: grid; line-height: 1.2; }
+.marke__name { font-weight: 700; font-size: 1.0625rem; }
+.marke__zusatz { font-size: 0.9375rem; color: var(--text-leise); }
+.marke:hover .marke__name { text-decoration: underline; text-underline-offset: 0.18em; }
+
+.hauptnav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+}
+.hauptnav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: var(--gr-klein);
+}
+.hauptnav a:hover { color: var(--akzent); text-decoration: underline; }
+
+/* Handy: Navigation als zweite Zeile, Button kompakt */
+.kopf__nav { border-top: 1px solid var(--linie); }
+.kopf__nav .hauptnav ul { justify-content: space-between; }
+.kopf__zeile .hauptnav { display: none; }
+.marke__name, .kopf .knopf { white-space: nowrap; }
+/* Sehr schmale Handys: nur Logo und Button, der Name steht direkt darunter groß im Einstieg */
+@media (max-width: 24rem) {
+  .marke__text { display: none; }
+}
+
+@media (min-width: 56rem) {
+  .kopf {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+  .kopf__nav { display: none; }
+  .kopf__zeile .hauptnav { display: block; margin-left: auto; }
+  .marke img { height: 52px; }
+  html { scroll-padding-top: calc(var(--kopf-hoehe) + 1rem); }
+}
+
+/* ---------- Bereiche allgemein ---------- */
+.bereich { padding-block: var(--abschnitt); }
+.bereich--flaeche { background: var(--flaeche); border-block: 1px solid var(--linie); }
+.bereich__kopf { display: grid; gap: 0.75rem; margin-bottom: clamp(2rem, 1.5rem + 2vw, 3rem); }
+.bereich__kopf p { color: var(--text-leise); }
+.eyebrow {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--akzent);
+}
+
+/* ---------- Einstieg ---------- */
+.einstieg {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(2.5rem, 1.5rem + 5vw, 6rem) var(--abschnitt);
+}
+.einstieg__raster {
+  position: relative;
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+.einstieg__text { display: grid; gap: 1.25rem; justify-items: start; }
+.einstieg .claim { font-size: 1.0625rem; }
+.einstieg__nutzen { font-size: 1.25rem; line-height: 1.55; color: var(--text); max-width: 38ch; }
+.einstieg__fakten {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.einstieg__fakten li {
+  font-size: var(--gr-klein);
+  color: var(--navy);
+  background: var(--flaeche);
+  border: 1px solid var(--linie);
+  border-radius: 999px;
+  padding: 0.25rem 0.875rem;
+}
+.einstieg__aktionen { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+
+.portraet {
+  position: relative;
+  isolation: isolate;
+  margin: 0;
+  width: min(100% - 3rem, 15rem);
+  justify-self: center;
+}
+@media (min-width: 52rem) {
+  .portraet { width: min(100% - 4rem, 22rem); }
+}
+/* Leiterbahnen rund um den Rahmen; liegen hinter dem Porträt */
+.portraet__platine {
+  position: absolute;
+  z-index: -1;
+  top: calc(-64 / 440 * 100%);   /* Prozent oben/unten beziehen sich auf die Höhe (4:5) */
+  left: calc(-64 / 352 * 100%);
+  width: calc(480 / 352 * 100%);
+  height: auto;
+  max-width: none;
+  color: var(--platine);
+  pointer-events: none;
+}
+.portraet__rahmen {
+  aspect-ratio: 4 / 5;
+  max-width: 100%;
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, var(--akzent-zart), var(--flaeche));
+  border: 1px solid var(--linie);
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 1.5rem;
+  color: var(--text-leise);
+}
+.portraet img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--radius); }
+
+@media (min-width: 52rem) {
+  .einstieg__raster { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 4rem; }
+}
+
+/* Füllungen in den Inline-SVGs */
+.knoten { fill: var(--grund); }
+.fuellung-hell { fill: var(--logo-blau); }
+.fuellung-weiss { fill: var(--flaeche); }
+
+/* ---------- Trenner mit Platinen-Motiv ---------- */
+.trenner {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  color: var(--platine);
+}
+.trenner::before, .trenner::after {
+  content: "";
+  flex: 1;
+  height: 1.5px;
+  background: currentColor;
+}
+.trenner svg { flex: none; width: 168px; height: 32px; }
+
+/* ---------- Leistungen ---------- */
+.karten {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.25rem;
+}
+.karte {
+  background: var(--flaeche);
+  border: 1px solid var(--linie);
+  border-radius: var(--radius);
+  padding: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  display: grid;
+  gap: 0.875rem;
+  align-content: start;
+}
+.karte__symbol { width: 48px; height: 48px; color: var(--navy); }
+.karte__text { color: var(--text); }
+.karte__themen { font-size: var(--gr-klein); color: var(--text-leise); }
+@media (min-width: 48rem) {
+  .karten { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+/* ---------- Über mich ---------- */
+.ueber {
+  display: grid;
+  gap: 2.5rem;
+}
+.ueber__text { display: grid; gap: 1rem; align-content: start; justify-items: start; }
+.ueber__listen { display: grid; gap: 2rem; align-content: start; }
+.liste-titel {
+  font-size: var(--gr-klein);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-leise);
+  margin-bottom: 0.75rem;
+}
+.faktenliste {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  border-top: 1px solid var(--linie);
+}
+.faktenliste li {
+  display: grid;
+  gap: 0.125rem;
+  padding-block: 0.75rem;
+  border-bottom: 1px solid var(--linie);
+}
+.faktenliste strong { color: var(--navy); font-weight: 600; }
+.faktenliste span { color: var(--text-leise); font-size: var(--gr-klein); }
+@media (min-width: 52rem) {
+  .ueber { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 4rem; }
+}
+
+/* ---------- Termin ---------- */
+.termin__rahmen {
+  background: var(--flaeche);
+  border: 1px solid var(--linie);
+  border-radius: var(--radius);
+  padding: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+  display: grid;
+  gap: 1rem;
+}
+.termin__ersatz { color: var(--text-leise); }
+
+/* ---------- Kontakt ---------- */
+.kontakt {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+.kontakt li {
+  background: var(--flaeche);
+  border: 1px solid var(--linie);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+.kontakt__art { font-size: var(--gr-klein); color: var(--text-leise); }
+.kontakt__wert { font-weight: 600; color: var(--navy); overflow-wrap: anywhere; }
+@media (min-width: 40rem) {
+  .kontakt { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ---------- Fußzeile ---------- */
+.fuss {
+  background: var(--navy);
+  color: var(--auf-dunkel);
+  padding-block: 3rem calc(2.5rem + env(safe-area-inset-bottom, 0px));
+}
+.fuss__raster { display: grid; gap: 1.75rem; }
+.fuss__marke { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.fuss__marke img { width: auto; height: 56px; }
+.fuss .claim { color: var(--auf-dunkel); }
+.fuss__links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+}
+.fuss a {
+  color: var(--auf-dunkel);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.fuss :focus-visible { outline-color: var(--logo-blau); }
+.fuss__klein { font-size: var(--gr-klein); color: var(--auf-dunkel-leise); }
+@media (min-width: 48rem) {
+  .fuss__raster { grid-template-columns: 1fr auto; align-items: center; }
+}
+
+/* ---------- Unterseiten (Impressum, Datenschutz) ---------- */
+.textseite { padding-block: clamp(2.5rem, 1.5rem + 4vw, 5rem) var(--abschnitt); }
+.textseite__inhalt { display: grid; gap: 2rem; max-width: 46rem; }
+.textseite section { display: grid; gap: 0.625rem; }
+.textseite h2 { font-size: 1.5rem; }
+.zurueck { font-weight: 600; display: inline-flex; align-items: center; min-height: 44px; }
