@@ -43,6 +43,13 @@
   --platine: #C3D3E0;        /* Platinen-Leiterbahnen */
   --auf-dunkel: #FFFFFF;
   --auf-dunkel-leise: #C9D6E5;
+  --tag-gesperrt-grund: #EEF1F4;  /* nicht verfügbare Tage */
+  --tag-gesperrt-text: #5E6A79;
+  --tag-verfuegbar-rand: #B7D6EC;
+  --eingabe-rand: #75828F;        /* Rahmen von Eingabefeldern (≥ 3:1) */
+  --fehler: #B3261E;
+  --hinweis-grund: #FFF8E1;
+  --hinweis-rand: #C99A00;
 
   /* Schrift */
   --schrift: "Source Sans 3", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
@@ -65,6 +72,7 @@
 
 /* ---------- Grundlagen ---------- */
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 html {
   -webkit-text-size-adjust: 100%;
@@ -419,11 +427,179 @@ a:hover { text-decoration-thickness: 2px; }
   background: var(--flaeche);
   border: 1px solid var(--linie);
   border-radius: var(--radius);
-  padding: clamp(1.25rem, 1rem + 1.5vw, 2rem);
-  display: grid;
-  gap: 1rem;
+  padding: clamp(1rem, 0.75rem + 1.5vw, 2rem);
 }
-.termin__ersatz { color: var(--text-leise); }
+.termin__raster { display: grid; gap: 2.5rem; }
+/* Schmale Handys: ohne Rahmen, damit jedes Tagesfeld mindestens 44 px breit bleibt */
+@media (max-width: 30rem) {
+  .termin__rahmen { padding: 0; border: 0; background: transparent; }
+  .anfrage__hinweis { background: var(--flaeche); border: 1px solid var(--linie); }
+}
+.termin__kalender, .termin__anfrage { display: grid; gap: 1.25rem; align-content: start; min-width: 0; }
+@media (min-width: 60rem) {
+  .termin__raster { grid-template-columns: minmax(0, 27rem) minmax(0, 1fr); gap: 3.5rem; }
+}
+
+/* ---------- Kalender ---------- */
+.kalender { display: grid; gap: 1rem; }
+.kalender__laden { color: var(--text-leise); }
+.kalender__kopf {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.kalender__monat { font-size: 1.3125rem; text-align: center; }
+.kalender__blaettern {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--linie);
+  border-radius: var(--radius);
+  background: var(--flaeche);
+  color: var(--navy);
+  cursor: pointer;
+}
+.kalender__blaettern:hover:not(:disabled) { background: var(--akzent-zart); border-color: var(--logo-blau); }
+.kalender__blaettern:disabled { opacity: 0.35; cursor: default; }
+.kalender__blaettern svg {
+  width: 22px; height: 22px;
+  fill: none; stroke: currentColor; stroke-width: 2.25; stroke-linecap: round; stroke-linejoin: round;
+}
+.kalender__tabelle {
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 3px;
+  margin-inline: -3px;
+  width: calc(100% + 6px);
+}
+.kalender__tabelle th {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-leise);
+  padding-bottom: 0.25rem;
+}
+.kalender__tabelle td { padding: 0; }
+
+/* Ein Tag im Kalender */
+.tag {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  min-height: 44px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--tag-gesperrt-grund);
+  color: var(--tag-gesperrt-text);
+  font: inherit;
+  font-size: 1.0625rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  cursor: default;
+}
+.tag--verfuegbar {
+  background: var(--akzent-zart);
+  border-color: var(--tag-verfuegbar-rand);
+  color: var(--navy);
+  font-weight: 600;
+  cursor: pointer;
+}
+.tag--verfuegbar:hover { background: var(--logo-blau); border-color: var(--navy); }
+.tag--gewaehlt,
+.tag--gewaehlt:hover {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--auf-dunkel);
+}
+.tag--heute span {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+.tag:focus-visible { outline-offset: 2px; }
+
+.kalender__legende {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  font-size: var(--gr-klein);
+  color: var(--text-leise);
+}
+.kalender__legende li { display: inline-flex; align-items: center; gap: 0.5rem; }
+.legende__muster {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  min-height: 0;
+  aspect-ratio: auto;
+  border-radius: 4px;
+}
+.legende__muster.tag--gesperrt { border-color: var(--linie); }
+.kalender__hilfe { font-size: var(--gr-klein); color: var(--text-leise); }
+@media (hover: none) and (pointer: coarse) {
+  .kalender__hilfe { display: none; }  /* Tastatur-Tipp ist am Handy überflüssig */
+}
+.kalender__hinweis {
+  background: var(--hinweis-grund);
+  border-left: 4px solid var(--hinweis-rand);
+  padding: 0.75rem 1rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: var(--gr-klein);
+}
+
+/* ---------- Anfrage ---------- */
+.anfrage__vorher { display: grid; gap: 0.75rem; }
+.schritte { margin: 0; padding-left: 1.4em; display: grid; gap: 0.5rem; }
+.schritte li::marker { color: var(--navy); font-weight: 700; }
+.anfrage { display: grid; gap: 1.25rem; }
+.formular { display: grid; gap: 1.25rem; justify-items: start; }
+.feld { display: grid; gap: 0.375rem; width: 100%; }
+.feld label { font-weight: 600; color: var(--navy); }
+.feld__optional { font-weight: 400; color: var(--text-leise); }
+.feld__hinweis { font-size: var(--gr-klein); color: var(--text-leise); }
+.feld input,
+.feld textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--eingabe-rand);
+  border-radius: var(--radius);
+  background: var(--flaeche);
+  color: var(--text);
+  font: inherit;
+}
+.feld textarea { resize: vertical; min-height: 8rem; }
+.feld input:focus-visible,
+.feld textarea:focus-visible { border-color: var(--navy); outline-offset: 1px; }
+.feld [aria-invalid="true"] { border-color: var(--fehler); border-width: 2px; }
+.feld__fehler { color: var(--fehler); font-size: var(--gr-klein); font-weight: 600; }
+.anfrage__status:empty { display: none; }
+.anfrage__status {
+  background: var(--akzent-zart);
+  border-left: 4px solid var(--navy);
+  padding: 0.75rem 1rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  color: var(--navy);
+}
+
+.anfrage__hinweis {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
+  background: var(--grund);
+  border-radius: var(--radius);
+}
+.anfrage__hinweis strong { color: var(--navy); font-weight: 600; }
+.kopieren { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem; }
+.kopieren__adresse { font-weight: 600; overflow-wrap: anywhere; }
+.kopieren__meldung { font-size: var(--gr-klein); color: var(--navy); }
 
 /* ---------- Kontakt ---------- */
 .kontakt {

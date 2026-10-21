@@ -194,15 +194,75 @@
         <div class="bereich__kopf">
           <span class="eyebrow">Termin anfragen</span>
           <h2 id="termin-titel">Wählen Sie einen freien Tag</h2>
-          <p>Im Kalender sehen Sie, an welchen Tagen ich verfügbar bin. Wählen Sie einen Tag, und Ihr E-Mail-Programm öffnet eine fertige Anfrage. Ich bestätige den Termin per E-Mail.</p>
+          <p>Im Kalender sehen Sie, an welchen Tagen ich verfügbar bin. Wählen Sie einen Tag und füllen Sie das kurze Formular aus – Ihr E-Mail-Programm öffnet dann eine fertige Anfrage, die Sie nur noch absenden.</p>
         </div>
 
-        <div class="termin__rahmen">
-          <!-- Hier erscheint in Etappe 3 der Kalender (js/kalender.js) und das Anfrageformular (js/anfrage.js). -->
-          <div id="kalender">
-            <p class="platzhalter">[Verfügbarkeitskalender – folgt in Etappe 3]</p>
+        <div class="termin__rahmen termin__raster">
+          <!-- Kalender: js/kalender.js, gestartet von js/seite.js -->
+          <div class="termin__kalender">
+            <div id="kalender"></div>
+            <noscript>
+              <p>Der Kalender benötigt JavaScript. Bitte senden Sie Ihre Anfrage direkt per E-Mail an
+                <a href="mailto:martin.huth@it-profis.biz">martin.huth@it-profis.biz</a>.</p>
+            </noscript>
+            <p class="kalender__hinweis" id="kalender-hinweis" role="status" hidden></p>
           </div>
-          <p class="termin__ersatz">Sie können Ihre Anfrage auch direkt per E-Mail senden: <a href="mailto:martin.huth@it-profis.biz">martin.huth@it-profis.biz</a></p>
+
+          <div class="termin__anfrage">
+            <!-- Vor der Auswahl eines Tages -->
+            <div id="anfrage-vorher" class="anfrage__vorher">
+              <h3>So einfach geht’s</h3>
+              <ol class="schritte">
+                <li>Wählen Sie im Kalender einen verfügbaren Tag.</li>
+                <li>Füllen Sie das kurze Formular aus.</li>
+                <li>Ihr E-Mail-Programm öffnet eine fertige Nachricht. Sie müssen sie nur noch absenden.</li>
+              </ol>
+            </div>
+
+            <!-- Formular: js/anfrage.js. Es speichert und überträgt nichts. -->
+            <div id="anfrage" class="anfrage" hidden>
+              <h3 data-anfrage-titel>Ihre Anfrage</h3>
+              <form class="formular" novalidate>
+                <div class="feld">
+                  <label for="anfrage-name">Name</label>
+                  <input id="anfrage-name" name="name" type="text" autocomplete="name" required aria-describedby="anfrage-name-fehler">
+                  <p class="feld__fehler" id="anfrage-name-fehler" hidden></p>
+                </div>
+                <div class="feld">
+                  <label for="anfrage-organisation">Organisation</label>
+                  <input id="anfrage-organisation" name="organisation" type="text" autocomplete="organization" required aria-describedby="anfrage-organisation-fehler">
+                  <p class="feld__fehler" id="anfrage-organisation-fehler" hidden></p>
+                </div>
+                <div class="feld">
+                  <label for="anfrage-email">E-Mail</label>
+                  <input id="anfrage-email" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="anfrage-email-fehler">
+                  <p class="feld__fehler" id="anfrage-email-fehler" hidden></p>
+                </div>
+                <div class="feld">
+                  <label for="anfrage-telefon">Telefon <span class="feld__optional">(optional)</span></label>
+                  <input id="anfrage-telefon" name="telefon" type="tel" autocomplete="tel">
+                </div>
+                <div class="feld">
+                  <label for="anfrage-anliegen">Anliegen</label>
+                  <p class="feld__hinweis" id="anfrage-anliegen-hinweis">Worum geht es? Zum Beispiel Thema, Umfang und Ort.</p>
+                  <textarea id="anfrage-anliegen" name="anliegen" rows="5" maxlength="1500" required aria-describedby="anfrage-anliegen-hinweis anfrage-anliegen-fehler"></textarea>
+                  <p class="feld__fehler" id="anfrage-anliegen-fehler" hidden></p>
+                </div>
+                <button type="submit" class="knopf" data-anfrage-senden>Anfrage senden</button>
+                <p class="anfrage__status" data-anfrage-status role="status"></p>
+              </form>
+            </div>
+
+            <div class="anfrage__hinweis">
+              <p><strong>Ihre Anfrage ist unverbindlich. Ich bestätige den Termin per E-Mail.</strong></p>
+              <p>Falls sich kein E-Mail-Programm öffnet, schreiben Sie bitte direkt an:</p>
+              <div class="kopieren">
+                <a class="kopieren__adresse" id="adresse" href="mailto:martin.huth@it-profis.biz">martin.huth@it-profis.biz</a>
+                <button type="button" class="knopf knopf--leise knopf--klein" data-kopieren="adresse">Adresse kopieren</button>
+                <span class="kopieren__meldung" id="adresse-meldung" role="status"></span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -254,5 +314,7 @@
       <p class="fuss__klein">Diese Website verwendet keine Cookies und kein Tracking.</p>
     </div>
   </footer>
+
+  <script type="module" src="js/seite.js"></script>
 </body>
 </html>
