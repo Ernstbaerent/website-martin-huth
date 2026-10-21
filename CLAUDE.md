@@ -94,3 +94,14 @@ Diese Datei hält die festen Regeln des Projekts fest. Sie gilt für jede Sitzun
   Konflikte abfangen). Erfolg: „Gespeichert – in wenigen Minuten online." Fehler verständlich auf Deutsch
   (z. B. „Schlüssel abgelaufen – bitte Clemens melden").
 - Hinweis: „Terminanfragen erhalten Sie per E-Mail an martin@huhts.de."
+
+## Getroffene Entscheidungen
+- Logo: Richtung A „nah am Original“, Linien und Buchstaben in Dunkelblau #17375E, Flächen Hellblau #95C6E6.
+  Dateien in `assets/logo/` (logo, logo-claim, logo-dunkel, logo-weiss, logo-claim-weiss), Favicon in `assets/favicon/`
+  (IP-Kasten). Buchstaben sind als Pfade eingebettet (aus Source Sans 3 Black).
+- Schrift: Source Sans 3 (400, 600, 700, Zeichensatz latin) in `assets/fonts/`, Lizenz `OFL.txt`.
+- Farben, Schriftgrößen und Abstände stehen als Variablen oben in `css/stil.css` – dort ändern, nicht verstreut.
+- Akzent für Text/Links: #1F5F94 (Logo-Blau abgedunkelt für AA-Kontrast); Hellblau nur für Flächen und Linien.
+- Verwaltungsseite: Ordner `kalender-pflege-76135ab6/`.
+- Platinen-Motiv: Leiterbahnen gehen vom Porträtrahmen aus; dazu ein schmaler Trenner mit Chip.
+- Jede Seite hat eine Content-Security-Policy (`<meta http-equiv>`), die nur eigene Dateien erlaubt.
