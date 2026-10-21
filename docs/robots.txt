@@ -1,2 +1,3 @@
+# VORSCHAU-SCHUTZ: vor dem Go-live durch "Allow: /" ersetzen
 User-agent: *
-Allow: /
+Disallow: /
