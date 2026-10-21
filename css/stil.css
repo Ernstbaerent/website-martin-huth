@@ -50,6 +50,13 @@
   --fehler: #B3261E;
   --hinweis-grund: #FFF8E1;
   --hinweis-rand: #C99A00;
+  --warnung-text: #6B4E00;
+  --fehler-grund: #FDECEA;
+  --erfolg-grund: #E6F4EA;
+  --erfolg-text: #1E6B34;
+  --eingetragen-grund: #FBE3E0;  /* Verwaltung: eingetragene „nicht verfügbar“-Tage */
+  --eingetragen-rand: #E3A59E;
+  --eingetragen-text: #8A2A1F;
 
   /* Schrift */
   --schrift: "Source Sans 3", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
@@ -660,3 +667,94 @@ a:hover { text-decoration-thickness: 2px; }
 .textseite section { display: grid; gap: 0.625rem; }
 .textseite h2 { font-size: 1.5rem; }
 .zurueck { font-weight: 600; display: inline-flex; align-items: center; min-height: 44px; }
+
+/* =====================================================================
+   Verwaltungsseite (schlicht, große Schaltflächen)
+   ===================================================================== */
+.knopf--gross { min-height: 56px; padding: 0.75rem 1.5rem; font-size: 1.125rem; }
+
+.verwaltung {
+  max-width: 46rem;
+  display: grid;
+  gap: 1.5rem;
+  padding-block: 2rem 0;
+}
+.verwaltung__einleitung { display: grid; gap: 0.75rem; }
+.verwaltung__einleitung h1 { font-size: clamp(1.875rem, 1.5rem + 2vw, 2.5rem); }
+.verwaltung__bereich { display: grid; gap: 1.5rem; }
+.verwaltung__karte {
+  background: var(--flaeche);
+  border: 1px solid var(--linie);
+  border-radius: var(--radius);
+  padding: clamp(1rem, 0.75rem + 1.5vw, 1.75rem);
+  display: grid;
+  gap: 1rem;
+}
+.verwaltung__karte h2 { font-size: 1.5rem; }
+@media (max-width: 30rem) {
+  .verwaltung__karte { padding-inline: 0.5rem; }
+}
+
+/* Eingetragene Tage: deutlich anders als Wochenenden/Feiertage */
+.tag--eingetragen:not(.tag--gewaehlt) {
+  background: var(--eingetragen-grund);
+  border-color: var(--eingetragen-rand);
+  color: var(--eingetragen-text);
+}
+.tag--eingetragen:not(.tag--gewaehlt):hover { border-color: var(--eingetragen-text); }
+
+#verwaltung-kalender { width: 100%; max-width: 30rem; margin-inline: auto; }
+
+/* Hinweisfeld unter dem Kalender */
+.auswahl {
+  scroll-margin-bottom: 10rem; /* nicht hinter der Speicherleiste verschwinden */
+  display: grid;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: var(--akzent-zart);
+  border-radius: var(--radius);
+  color: var(--navy);
+  font-weight: 600;
+}
+.auswahl__knoepfe { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.auswahl__knoepfe:empty { display: none; }
+
+/* Liste der Einträge */
+.eintraege { list-style: none; margin: 0; padding: 0; display: grid; border-top: 1px solid var(--linie); }
+.eintraege:empty { display: none; }
+.eintraege li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding-block: 0.75rem;
+  border-bottom: 1px solid var(--linie);
+}
+.eintraege li span { min-width: 0; }
+
+/* Speicherleiste: bleibt am Handy unten sichtbar */
+.speicherleiste {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  display: grid;
+  gap: 0.75rem;
+  margin-inline: calc(-1 * var(--rand));
+  padding: 1rem var(--rand-r) calc(1rem + env(safe-area-inset-bottom, 0px)) var(--rand);
+  background: var(--flaeche);
+  border-top: 1px solid var(--linie);
+  box-shadow: 0 -4px 16px rgba(23, 55, 94, 0.08);
+}
+.speicherleiste__knopf { width: 100%; }
+.speicherleiste__hinweis { color: var(--warnung-text); font-weight: 600; }
+@media (min-width: 46rem) {
+  .speicherleiste { margin-inline: 0; padding-inline: 1.25rem; border: 1px solid var(--linie); border-radius: var(--radius) var(--radius) 0 0; }
+}
+
+/* Meldungen */
+.meldung { padding: 0.75rem 1rem; border-radius: 0 var(--radius) var(--radius) 0; border-left: 4px solid; }
+.meldung--info { background: var(--akzent-zart); border-color: var(--navy); color: var(--navy); }
+.meldung--erfolg { background: var(--erfolg-grund); border-color: var(--erfolg-text); color: var(--erfolg-text); font-weight: 600; }
+.meldung--warnung { background: var(--hinweis-grund); border-color: var(--hinweis-rand); color: var(--warnung-text); }
+.meldung--fehler { background: var(--fehler-grund); border-color: var(--fehler); color: var(--fehler); font-weight: 600; }
