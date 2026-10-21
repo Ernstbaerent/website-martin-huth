@@ -79,7 +79,7 @@ Diese Datei hält die festen Regeln des Projekts fest. Sie gilt für jede Sitzun
   Heilige Drei Könige, Frauentag (8.3.), Fronleichnam, Mariä Himmelfahrt, Weltkindertag (20.9.), Reformationstag,
   Allerheiligen, Buß- und Bettag (Mittwoch vor dem 23.11.).
 - Pflicht-Testwerte: Ostersonntag 2026 = 05.04.2026, 2027 = 28.03.2027, Fronleichnam 2026 = 04.06.2026,
-  Buß- und Bettag 2026 = 18.11.2026. Tests: `node tests/feiertage.test.mjs`.
+  Buß- und Bettag 2026 = 18.11.2026. Tests: `node tests/feiertage.test.mjs` und `node tests/kalender-anfrage.test.mjs`.
 
 ## Terminanfrage
 - Klick auf verfügbaren Tag → Formular: Name, Organisation, E-Mail, Telefon (optional), Anliegen.
@@ -106,5 +106,9 @@ Diese Datei hält die festen Regeln des Projekts fest. Sie gilt für jede Sitzun
 - Akzent für Text/Links: #1F5F94 (Logo-Blau abgedunkelt für AA-Kontrast); Hellblau nur für Flächen und Linien.
 - Verwaltungsseite: Ordner `kalender-pflege-76135ab6/`.
 - Platinen-Motiv: Leiterbahnen gehen vom Porträtrahmen aus; dazu ein schmaler Trenner mit Chip.
+- `js/seite.js` startet Kalender + Anfrage auf der Startseite (eigene Datei wegen CSP, kein Inline-Skript).
+- Kalender-Baustein `erstelleKalender()` ist für die Verwaltung wiederverwendbar (Optionen `waehlbar`,
+  `beschriftung`, `zusatzKlasse`, `beiAuswahl`, `setzeGesperrt()`).
+- Format `data/verfuegbarkeit.json`: `{ "nichtVerfuegbar": [ { "von": "JJJJ-MM-TT", "bis": "JJJJ-MM-TT" } ] }`.
 - Jede Seite hat eine Content-Security-Policy (`<meta http-equiv>`), die nur eigene Dateien erlaubt.
   Ausnahme nur auf der Verwaltungsseite: `connect-src 'self' https://api.github.com`.
