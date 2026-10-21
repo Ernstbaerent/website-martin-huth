@@ -24,11 +24,13 @@ Diese Datei hält die festen Regeln des Projekts fest. Sie gilt für jede Sitzun
 - Website-Texte in Sie-Form, sachlich.
 - Fakten zur Person nur aus dem Briefing: Dr. rer. nat. (Mathematik), über 15 Jahre Leiter der IT einer Landesbehörde,
   Microsoft Certified Trainer seit 1997, CompTIA Project+, Six Sigma Green Belt, früher Trainingsleitung bei Dell,
-  pädagogischer Leiter in der Weiterbildung. Heute im Ruhestand, freiberuflich tätig.
+  pädagogischer Leiter in der Weiterbildung. Heute freiberuflich tätig.
+- Den Ruhestand auf der Website NICHT erwähnen.
 - Den aktuellen/letzten Arbeitgeber NIE namentlich nennen – nur „Landesbehörde".
 - NICHTS erfinden: keine Kundennamen, Referenzen, Zahlen, Kundenstimmen, Rechtstexte.
   Fehlendes immer als `[Platzhalter in eckigen Klammern]`.
-- Kontakt-E-Mail: martin@huhts.de. LinkedIn, Xing, Telefon: Platzhalter.
+- Kontakt-E-Mail: martin.huth@it-profis.biz. LinkedIn, Xing: „[Link einfügen]“, Telefon: Platzhalter.
+- Impressum-Anschrift: Dr. Martin Huth, Alberichstraße 6, 06217 Merseburg.
 
 ## Logo
 - Vorlage: bestehendes Logo (Oval mit senkrecht gestapeltem „T C P", daneben „IP" in blauem Kasten).
@@ -81,7 +83,7 @@ Diese Datei hält die festen Regeln des Projekts fest. Sie gilt für jede Sitzun
 
 ## Terminanfrage
 - Klick auf verfügbaren Tag → Formular: Name, Organisation, E-Mail, Telefon (optional), Anliegen.
-- Button „Anfrage für [Datum] senden" → mailto an martin@huhts.de.
+- Button „Anfrage für [Datum] senden" → mailto an martin.huth@it-profis.biz.
 - Betreff: „Terminanfrage: [Wochentag, TT.MM.JJJJ] – [Organisation]". Mailtext enthält alle Formulardaten übersichtlich.
 - Hinweis: „Ihre Anfrage ist unverbindlich. Ich bestätige den Termin per E-Mail." + E-Mail-Adresse mit Kopier-Button.
 
@@ -93,7 +95,7 @@ Diese Datei hält die festen Regeln des Projekts fest. Sie gilt für jede Sitzun
 - „Speichern" schreibt `data/verfuegbarkeit.json` über die GitHub-Contents-API nach `main` (mit aktuellem sha,
   Konflikte abfangen). Erfolg: „Gespeichert – in wenigen Minuten online." Fehler verständlich auf Deutsch
   (z. B. „Schlüssel abgelaufen – bitte Clemens melden").
-- Hinweis: „Terminanfragen erhalten Sie per E-Mail an martin@huhts.de."
+- Hinweis: „Terminanfragen erhalten Sie per E-Mail an martin.huth@it-profis.biz."
 
 ## Getroffene Entscheidungen
 - Logo: Richtung A „nah am Original“, Linien und Buchstaben in Dunkelblau #17375E, Flächen Hellblau #95C6E6.
@@ -105,3 +107,4 @@ Diese Datei hält die festen Regeln des Projekts fest. Sie gilt für jede Sitzun
 - Verwaltungsseite: Ordner `kalender-pflege-76135ab6/`.
 - Platinen-Motiv: Leiterbahnen gehen vom Porträtrahmen aus; dazu ein schmaler Trenner mit Chip.
 - Jede Seite hat eine Content-Security-Policy (`<meta http-equiv>`), die nur eigene Dateien erlaubt.
+  Ausnahme nur auf der Verwaltungsseite: `connect-src 'self' https://api.github.com`.
